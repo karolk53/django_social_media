@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheets %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="card">
+                <div class="card-header post-title">
+                    <h5>{{ post.user.username }}</h5>
+                    {% if post.user == user %}
+                        <div class="post-actions">
+                            <a class="post-edit-icon" href="{% url "posts:edit" post.id %}"><i class="bi bi-pencil-square"></i></a>
+                            <a class="post-delete-icon" href="{% url "posts:delete" post.id %}"><i class="bi bi-x-square"></i></a>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p style="font-size: 12px;">Created: {{ post.created_datetime }}</p>
+                    <p class="card-text">{{ post.contents }}</p>
+                </div>
+                <div class="card-footer text-muted post-footer">
+                    <div class="like-div">
+                        <form action="{% url 'posts:like' post.id %}" method="POST">
+                        {% csrf_token %}
+                        {% if user in post.likes.all %}
+                            <button type="submit" name="post_id" value="{{post.id}}" class="btn btn-secondary"><i class="bi bi-hand-thumbs-up"> </i>Like</button>
+                        {% else %}
+                            <button type="submit" name="post_id" value="{{post.id}}" class="btn btn-primary"><i class="bi bi-hand-thumbs-up"> </i>Like</button>
+                        {% endif %}
+                        </form>
+                        <span class="text-secondary likes-number">Likes: {{ post.number_of_likes }}</span>
+                    </div>
+                    <div class="comment-div">
+                        <button class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i> Add comment</button>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

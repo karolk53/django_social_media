@@ -1,0 +1,75 @@
+.container{
+    margin: 10px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.posts{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 60%;
+}
+
+.posts h1{
+    margin-bottom: 15px;
+}
+
+.post-div{
+    padding: 5px;
+    margin: 15px 0;
+    border: 1px solid darkgray;
+    border-radius: 10px;
+}
+
+.post-div a{
+    display: inline;
+}
+
+
+.side-bar{
+    width: 20%;
+    border: 1px solid darkgray;
+    border-radius: 10px;
+}
+
+.post-title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.post-edit-icon{
+    color: gray;
+}
+
+.post-edit-icon:hover{
+    color: blue;
+    transition: .3s;
+}
+
+.post-delete-icon{
+    color: gray;
+}
+
+.post-delete-icon:hover{
+    color: red;
+}
+
+.post-footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.like-div{
+    display: flex;
+    flex-direction: row;
+}
+
+.likes-number{
+    font-weight: bolder;
+    display: flex;
+    align-items: center;
+}
