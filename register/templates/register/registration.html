@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
+{% block title %}Registration{% endblock %}
+
 {% block content %}
     {% if messages %}
     <ul class="messages">
@@ -9,11 +11,16 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <div class="container-sm">
+    <div class="container" style="width: 60%;">
         <form method="post">
             {% csrf_token %}
-            {{ form|crispy }}
-            <input type="submit" class="btn btn-success" value="Register">
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Create yout account here!</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" value="Register" style="margin: 8px 0;">
+            </div>
         </form>
     </div>
 {% endblock %}

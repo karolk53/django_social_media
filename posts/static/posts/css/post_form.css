@@ -1,0 +1,12 @@
+.container{
+    display: flex;
+    justify-content: center;
+}
+
+legend{
+    font-weight: bolder;
+}
+
+.btn{
+    margin: 8px 0;
+}

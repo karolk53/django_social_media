@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from tinymce import models as tmce_modeles
 
 class PostCategory(models.Model):
     name = models.CharField(max_length=100)
@@ -12,7 +12,7 @@ class PostCategory(models.Model):
 class Post(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
-    contents = models.TextField(max_length=255)
+    contents = tmce_modeles.HTMLField()
     created_datetime = models.DateTimeField(auto_now_add=True)
     modified_datetime = models.DateTimeField(auto_now=True)
     category = models.ForeignKey(PostCategory,on_delete=models.SET_NULL,null=True)

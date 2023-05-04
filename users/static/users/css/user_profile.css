@@ -1,0 +1,28 @@
+.container{
+    display: flex;
+    justify-content: center;
+}
+
+.content-section{
+    width: 60%;
+    margin: 8px;
+    border: .5px solid gray;
+    border-radius: 2%;
+    padding: 15px;
+}
+
+.media{
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+}
+
+.media img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+.btn{
+    margin: 8px 0;
+}
