@@ -3,6 +3,20 @@
 
 {% block title %}Log In{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        .container{
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn{
+            margin: 8px 0;
+        }
+
+    </style>
+{% endblock %}
+
 {% block content %}
     <div class="content-section" style="width: 60%;">
         <form method="POST">

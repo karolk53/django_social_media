@@ -38,7 +38,7 @@
                     <a href="{% url "posts:detail" post.id %}">
                     <h5 class="card-title">{{ post.title }}</h5>
                     <p style="font-size: 12px;">Created: {{ post.created_datetime }}</p>
-                    <p class="card-text">{{ post.contents }}</p>
+                    <p class="card-text">{{ post.contents|safe }}</p>
                     </a>
                 </div>
                 <div class="card-footer text-muted post-footer">
