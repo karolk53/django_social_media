@@ -2,26 +2,35 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block title %} {{ user.username }} Profile {% endblock %}
+{% block title %}Profil użytkownika - {{ user.username }}{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{% static "users/css/user_profile.css" %}">
-{% endblock %}
 
+<link rel="stylesheet" href="{% static "users/css/user_profile.css" %}"> {% endblock %}
 {% block content %}
-    <div class="content-section">
-        <div class="media">
-            <img class="" src="{{ user.profile.image.url }}">
-            <div class="media-body">
-                <h2 class="account-heading">{{ user.username }}</h2>
-                <p class="text-secondary">{{ user.email }}</p>
+
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-header">
+            <img class="profile-avatar" src="{{ user.profile.image.url }}" alt="Avatar">
+            <div class="profile-info">
+                <h2>{{ user.get_full_name|default:user.username }}</h2>
+                <p class="profile-email">{{ user.email }}</p>
             </div>
         </div>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ u_form|crispy }}
-            {{ p_form|crispy }}
-            <button class="btn btn-outline-success" type="submit">Update</button>
-        </form>
+        <div class="profile-body">
+            <h3>Edytuj profil</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-section">
+                    {{ u_form|crispy }}
+                </div>
+                <div class="form-section">
+                    {{ p_form|crispy }}
+                </div>
+                <button class="btn-submit" type="submit">Zapisz zmiany</button>
+            </form>
+        </div>
     </div>
+</div>
 {% endblock %}

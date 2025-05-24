@@ -1,0 +1,22 @@
+.card {
+max-width: 650px;
+margin: 0 auto;
+border: 1px solid #dee2e6;
+border-radius: 1rem;
+}
+
+.card-header {
+background-color: #f8f9fa;
+}
+
+.card-body form {
+padding: 0.5rem;
+}
+
+.btn-success {
+transition: background-color 0.2s ease;
+}
+
+.btn-success:hover {
+background-color: #218838;
+}

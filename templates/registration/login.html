@@ -1,24 +1,22 @@
-{% extends  'base.html' %}
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
 {% block title %}Log In{% endblock %}
 
 {% block stylesheets %}
     <style>
-        .container{
-            display: flex;
-            justify-content: center;
+        .form-wrapper {
+            max-width: 500px;
+            margin: auto;
         }
-
-        .btn{
-            margin: 8px 0;
+        .btn {
+            margin-top: 10px;
         }
-
     </style>
 {% endblock %}
 
 {% block content %}
-    <div class="content-section" style="width: 60%;">
+    <div class="form-wrapper">
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
@@ -26,12 +24,12 @@
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-success" type="submit">Login</button>
+                <button class="btn btn-outline-success w-100" type="submit">Login</button>
             </div>
         </form>
-        <div class="pt-3">
+        <div class="pt-3 text-center">
             <small class="text-muted">
-                Need An Account? <a class="ml-2" href="{% url 'register:register' %}">Sign Up Now</a>
+                Need an account? <a href="{% url 'register:register' %}">Sign Up Now</a>
             </small>
         </div>
     </div>

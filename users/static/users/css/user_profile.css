@@ -1,28 +1,73 @@
-.container{
-    display: flex;
-    justify-content: center;
+.profile-container {
+display: flex;
+justify-content: center;
+padding: 2rem;
+background: #f5f7fa;
 }
 
-.content-section{
-    width: 60%;
-    margin: 8px;
-    border: .5px solid gray;
-    border-radius: 2%;
-    padding: 15px;
+.profile-card {
+background: white;
+border-radius: 16px;
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+width: 100%;
+max-width: 800px;
+padding: 2rem;
+display: flex;
+flex-direction: column;
+gap: 2rem;
 }
 
-.media{
-    display: flex;
-    flex-direction: row;
-    align-items: end;
+.profile-header {
+display: flex;
+align-items: center;
+gap: 1.5rem;
 }
 
-.media img{
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
+.profile-avatar {
+width: 120px;
+height: 120px;
+object-fit: cover;
+border-radius: 50%;
+border: 4px solid #e1e4e8;
+transition: transform 0.3s ease;
 }
 
-.btn{
-    margin: 8px 0;
+.profile-avatar:hover {
+transform: scale(1.05);
+}
+
+.profile-info h2 {
+margin: 0;
+font-size: 1.75rem;
+color: #2c3e50;
+}
+
+.profile-email {
+font-size: 1rem;
+color: #7f8c8d;
+}
+
+.profile-body h3 {
+font-size: 1.25rem;
+color: #34495e;
+margin-bottom: 1rem;
+}
+
+.form-section {
+margin-bottom: 1.5rem;
+}
+
+.btn-submit {
+background-color: #27ae60;
+color: white;
+padding: 0.6rem 1.2rem;
+border: none;
+border-radius: 6px;
+font-size: 1rem;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+background-color: #219150;
 }

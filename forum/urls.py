@@ -21,13 +21,13 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("accounts/",include("django.contrib.auth.urls")),
-    path("posts/",include("posts.urls")),
-    path("users",include("users.urls")),
-    path("register",include("register.urls")),
-    path("tinymce/",include("tinymce.urls")),
-    path("grappelli",include("grappelli.urls")),
-    path("",TemplateView.as_view(template_name="base.html"),name="home_page"),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("posts/", include("posts.urls")),
+    path("users/", include("users.urls")),
+    path("register/", include("register.urls")),
+    path("tinymce/", include("tinymce.urls")),
+    path("grappelli/", include("grappelli.urls")),
+    path("", TemplateView.as_view(template_name="base.html"), name="home_page"),
 ]
 
 if settings.DEBUG:

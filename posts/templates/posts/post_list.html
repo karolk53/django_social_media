@@ -1,107 +1,80 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Posts list{% endblock %}
+{% block title %}Lista postów{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{% static "posts/css/posts_list.css" %}">
-{% endblock %}
 
-
-
+<link rel="stylesheet" href="{% static 'posts/css/posts_list.css' %}"> {% endblock %}
 {% block content %}
 
-    <div class="posts">
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-        {% endfor %}
+<div class="main-container">
+    <div class="posts-list"> {% if messages %} {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
     {% endif %}
-    <h1>Recently added posts</h1>
-        {% for post in object_list %}
-            <div class="card">
-                <div class="card-header post-title">
-                    <div class="user-info">
-                        <img src="{{ post.user.profile.image.url }}" class="account-img">
-                        <h5>{{ post.user.username }}</h5>
-                    </div>
-                    {% if post.user == user %}
-                        <div class="post-actions">
-                            <a class="post-edit-icon" href="{% url "posts:edit" post.id %}"><i class="bi bi-pencil-square"></i></a>
-                            <a class="post-delete-icon" href="{% url "posts:delete" post.id %}"><i class="bi bi-x-square"></i></a>
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="card-body post-body">
-                    <a href="{% url "posts:detail" post.id %}">
-                    <h5 class="card-title">{{ post.title }}</h5>
-                    <p style="font-size: 12px;">Created: {{ post.created_datetime }}</p>
-                    <p class="card-text">{{ post.contents|safe }}</p>
-                    </a>
-                </div>
-                <div class="card-footer text-muted post-footer">
-                    <div class="like-div">
-                        <form action="{% url 'posts:like' post.id %}" method="POST">
-                        {% csrf_token %}
-                        {% if user in post.likes.all %}
-                            <button type="submit" name="post_id" value="{{post.id}}" class="btn btn-secondary"><i class="bi bi-hand-thumbs-up"> </i>Like</button>
-                        {% else %}
-                            <button type="submit" name="post_id" value="{{post.id}}" class="btn btn-primary"><i class="bi bi-hand-thumbs-up"> </i>Like</button>
-                        {% endif %}
-                        </form>
-                        <span class="text-secondary likes-number">Likes: {{ post.number_of_likes }}</span>
-                    </div>
-                    <div class="comment-div">
-                        <a class="btn btn-primary" href="{% url "posts:add_comment" post.id %}"><i class="bi bi-chat-left-text-fill"></i> Add comment</a>
-                    </div>
-                </div>
-            </div>
-            </br>
-        {% endfor %}
+    <h1>Ostatnie posty</h1>
 
-{#       PAGINATION#}
+{% for post in object_list %}
+  <div class="post-card">
+    <div class="post-header">
+      <div class="user-section">
+        <img src="{{ post.user.profile.image.url }}" class="user-avatar" alt="avatar">
+        <div>
+          <h5>{{ post.user.username }}</h5>
+          <p class="post-date">{{ post.created_datetime }}</p>
+        </div>
+      </div>
 
-
-        <ul class="pagination">
-            {% if page_obj.has_previous %}
-            <li class="page-item">
-              <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Previous</span>
-              </a>
-            </li>
-            {% endif %}
-            {% if page_obj.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
-            {% endif %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
-            {% if page_obj.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
-            {% endif %}
-            {% if page_obj.has_next %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                  </a>
-                </li>
-            {% endif %}
-        </ul>
-
-
-
+      {% if post.user == user %}
+        <div class="post-actions">
+          <a href="{% url 'posts:edit' post.id %}" title="Edytuj"><i class="bi bi-pencil-square"></i></a>
+          <a href="{% url 'posts:delete' post.id %}" title="Usuń"><i class="bi bi-x-square"></i></a>
+        </div>
+      {% endif %}
     </div>
 
-{#SIDEBAR#}
-    <div class="side-bar">
-        <h2>Here gonna be some side bar</h2>
-        <p>LLLLLLLLLLLLAAAAAAAAAAAA</p>
+    <div class="post-body">
+      <a href="{% url 'posts:detail' post.id %}">
+        <h4>{{ post.title }}</h4>
+        <p>{{ post.contents|safe }}</p>
+      </a>
     </div>
 
-{% endblock %}
+    <div class="post-footer">
+      <form action="{% url 'posts:like' post.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-sm {% if user in post.likes.all %}btn-secondary{% else %}btn-outline-primary{% endif %}">
+          <i class="bi bi-hand-thumbs-up"></i> Like
+        </button>
+        <span class="likes-count">({{ post.number_of_likes }})</span>
+      </form>
+      <a class="btn btn-sm btn-outline-info" href="{% url 'posts:add_comment' post.id %}">
+        <i class="bi bi-chat-left-text"></i> Skomentuj
+      </a>
+    </div>
+  </div>
+{% endfor %}
 
-{% block additional_scripts %}
-
+<div class="pagination-container">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+      </li>
+    {% endif %}
+    <li class="page-item active"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+      </li>
+    {% endif %}
+  </ul>
+</div>
+</div>
+    <aside class="sidebar">
+        <h3>Sidebar</h3>
+        <p>Tutaj możesz umieścić np. popularne tagi, ranking użytkowników albo linki do kategorii.</p>
+    </aside>
+</div>
 {% endblock %}

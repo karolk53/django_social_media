@@ -145,16 +145,30 @@ LOGIN_REDIRECT_URL = "/posts/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
 TINYMCE_DEFAULT_CONFIG = {
-    "height": "320px",
-    "width": "960px",
-    "menubar": "file edit view insert format tools table help",
-    "plugins": "advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code "
-    "fullscreen insertdatetime media table paste code help wordcount spellchecker",
-    "toolbar": "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft "
-    "aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor "
-    "backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | "
-    "fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | "
-    "a11ycheck ltr rtl | showcomments addcomment code",
-    "custom_undo_redo_levels": 10,
-    "language": "en_EN",  # To force a specific language instead of the Django current language.
+    "height": 400,
+    "width": "100%",
+    "menubar": "edit insert view format tools table",
+    "plugins": (
+        "advlist autolink lists link image charmap preview anchor "
+        "searchreplace visualblocks code fullscreen insertdatetime media table "
+        "codesample help wordcount"
+    ),
+    "toolbar": (
+        "undo redo | styleselect | bold italic underline strikethrough | "
+        "forecolor backcolor | alignleft aligncenter alignright alignjustify | "
+        "bullist numlist outdent indent | link image media codesample | preview fullscreen code"
+    ),
+    "branding": False,
+    "statusbar": True,
+    "resize": True,
+    "content_style": "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+    "contextmenu": "link image table",
+    "automatic_uploads": True,
+    "image_title": True,
+    "file_picker_types": "image media",
+    "default_link_target": "_blank",
+    "relative_urls": False,
+    "remove_script_host": False,
+    "convert_urls": True,
+    "language": "en",
 }
