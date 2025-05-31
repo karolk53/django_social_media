@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block title %}Profil użytkownika - {{ user.username }}{% endblock %}
+{% block title %}User profile - {{ user.username }}{% endblock %}
 
 {% block stylesheets %}
 
@@ -12,14 +12,18 @@
 <div class="profile-container">
     <div class="profile-card">
         <div class="profile-header">
-            <img class="profile-avatar" src="{{ user.profile.image.url }}" alt="Avatar">
+            {% if user.profile.image %}
+                <img src="{{ user.profile.image.url }}" alt="Profile Image" class="profile-avatar">
+            {% else %}
+                <img src="{% get_media_prefix %}profile_pics/avatar.jpg" alt="Default Image" class="profile-avatar">
+            {% endif %}
             <div class="profile-info">
                 <h2>{{ user.get_full_name|default:user.username }}</h2>
                 <p class="profile-email">{{ user.email }}</p>
             </div>
         </div>
         <div class="profile-body">
-            <h3>Edytuj profil</h3>
+            <h3>Edit profile</h3>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-section">
@@ -28,7 +32,7 @@
                 <div class="form-section">
                     {{ p_form|crispy }}
                 </div>
-                <button class="btn-submit" type="submit">Zapisz zmiany</button>
+                <button class="btn-submit" type="submit">Save</button>
             </form>
         </div>
     </div>

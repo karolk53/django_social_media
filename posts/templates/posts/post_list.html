@@ -1,80 +1,134 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Lista postów{% endblock %}
+{% block title %}Posts list{% endblock %}
 
 {% block stylesheets %}
+<link rel="stylesheet" href="{% static 'posts/css/posts_list.css' %}">
+<link rel="stylesheet" href="{% static 'posts/css/sidebar.css' %}">
+{% endblock %}
 
-<link rel="stylesheet" href="{% static 'posts/css/posts_list.css' %}"> {% endblock %}
 {% block content %}
+<div class="main-layout">
+  <!-- Left Sidebar: Search -->
+  <aside class="left-sidebar">
+    <h3>Search Posts</h3>
+    <form method="GET" action="{% url 'posts:list' %}">
+      <input
+        type="text"
+        name="q"
+        placeholder="Search..."
+        value="{{ search_query }}"
+        autocomplete="off"
+      />
+      <button type="submit">Search</button>
+    </form>
+  </aside>
 
-<div class="main-container">
-    <div class="posts-list"> {% if messages %} {% for message in messages %}
+  <!-- Main Post List -->
+  <div class="posts-list">
+    {% if messages %}
+      {% for message in messages %}
         <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-    {% endfor %}
+      {% endfor %}
     {% endif %}
-    <h1>Ostatnie posty</h1>
 
-{% for post in object_list %}
-  <div class="post-card">
-    <div class="post-header">
-      <div class="user-section">
-        <img src="{{ post.user.profile.image.url }}" class="user-avatar" alt="avatar">
-        <div>
-          <h5>{{ post.user.username }}</h5>
-          <p class="post-date">{{ post.created_datetime }}</p>
+    <h1>Latest posts</h1>
+
+    {% for post in object_list %}
+      <div class="post-card">
+        <div class="post-header">
+          <div class="user-section">
+            {% if post.user.profile.image %}
+              <img src="{{ post.user.profile.image.url }}" alt="Profile Image" class="user-avatar" />
+            {% else %}
+              <img src="{% get_media_prefix %}profile_pics/avatar.jpg" alt="Default Image" class="user-avatar">
+            {% endif %}
+            <div>
+              <h5>{{ post.user.username }}</h5>
+              <p class="post-date">{{ post.created_datetime }}</p>
+            </div>
+          </div>
+
+          {% if post.user == user %}
+            <div class="post-actions">
+              <a href="{% url 'posts:edit' post.id %}" title="Edytuj"><i class="bi bi-pencil-square"></i></a>
+              <a href="{% url 'posts:delete' post.id %}" title="Usuń"><i class="bi bi-x-square"></i></a>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="post-body">
+          <a href="{% url 'posts:detail' post.id %}">
+            <h4>{{ post.title }}</h4>
+            <p>{{ post.contents|safe }}</p>
+          </a>
+        </div>
+
+        <div class="post-footer">
+          <form action="{% url 'posts:like' post.id %}" method="POST">
+            {% csrf_token %}
+            <button
+              type="submit"
+              class="btn btn-sm {% if user in post.likes.all %}btn-secondary{% else %}btn-outline-primary{% endif %}"
+            >
+              <i class="bi bi-hand-thumbs-up"></i> Like
+            </button>
+            <span class="likes-count">({{ post.number_of_likes }})</span>
+          </form>
+          <a class="btn btn-sm btn-outline-info" href="{% url 'posts:add_comment' post.id %}">
+            <i class="bi bi-chat-left-text"></i> Comment
+          </a>
         </div>
       </div>
+    {% empty %}
+      <p>No posts found.</p>
+    {% endfor %}
 
-      {% if post.user == user %}
-        <div class="post-actions">
-          <a href="{% url 'posts:edit' post.id %}" title="Edytuj"><i class="bi bi-pencil-square"></i></a>
-          <a href="{% url 'posts:delete' post.id %}" title="Usuń"><i class="bi bi-x-square"></i></a>
-        </div>
-      {% endif %}
-    </div>
-
-    <div class="post-body">
-      <a href="{% url 'posts:detail' post.id %}">
-        <h4>{{ post.title }}</h4>
-        <p>{{ post.contents|safe }}</p>
-      </a>
-    </div>
-
-    <div class="post-footer">
-      <form action="{% url 'posts:like' post.id %}" method="POST">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-sm {% if user in post.likes.all %}btn-secondary{% else %}btn-outline-primary{% endif %}">
-          <i class="bi bi-hand-thumbs-up"></i> Like
-        </button>
-        <span class="likes-count">({{ post.number_of_likes }})</span>
-      </form>
-      <a class="btn btn-sm btn-outline-info" href="{% url 'posts:add_comment' post.id %}">
-        <i class="bi bi-chat-left-text"></i> Skomentuj
-      </a>
+    <!-- Pagination -->
+    <div class="pagination-container">
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="?page={{ page_obj.previous_page_number }}&q={{ search_query }}"
+              >&laquo;</a
+            >
+          </li>
+        {% endif %}
+        <li class="page-item active">
+          <a class="page-link" href="?page={{ page_obj.number }}&q={{ search_query }}">
+            {{ page_obj.number }}
+          </a>
+        </li>
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="?page={{ page_obj.next_page_number }}&q={{ search_query }}"
+              >&raquo;</a
+            >
+          </li>
+        {% endif %}
+      </ul>
     </div>
   </div>
-{% endfor %}
 
-<div class="pagination-container">
-  <ul class="pagination">
-    {% if page_obj.has_previous %}
-      <li class="page-item">
-        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
-      </li>
-    {% endif %}
-    <li class="page-item active"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
-    {% if page_obj.has_next %}
-      <li class="page-item">
-        <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
-      </li>
-    {% endif %}
-  </ul>
-</div>
-</div>
-    <aside class="sidebar">
-        <h3>Sidebar</h3>
-        <p>Tutaj możesz umieścić np. popularne tagi, ranking użytkowników albo linki do kategorii.</p>
-    </aside>
+  <!-- Right Sidebar: Top 5 Most Liked Posts -->
+  <aside class="right-sidebar">
+    <h3>Top 5 Most Liked Posts</h3>
+    <ul class="top-liked-posts">
+      {% for top_post in top_liked_posts %}
+        <li>
+          <a href="{% url 'posts:detail' top_post.id %}">
+            {{ top_post.title }} <span>({{ top_post.like_count }} 👍)</span>
+          </a>
+        </li>
+      {% empty %}
+        <li>No liked posts yet.</li>
+      {% endfor %}
+    </ul>
+  </aside>
 </div>
 {% endblock %}

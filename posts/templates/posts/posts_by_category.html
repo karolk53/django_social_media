@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Posts in category {{ category.name }}{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'posts/css/posts_list.css' %}">
+<link rel="stylesheet" href="{% static 'posts/css/categories.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+  <div class="posts-list">
+    <h1>Posts in category: {{ category.name }}</h1>
+
+    {% for post in posts %}
+      <div class="post-card">
+        <div class="post-header">
+          <div class="user-section">
+            {% if post.user.profile.image.url %}
+              <img src="{{ post.user.profile.image.url }}" alt="Profile Image" class="user-avatar">
+            {% else %}
+              <img src="{{ MEDIA_URL }}profile_pics/default.jpg" alt="Default Image" class="user-avatar">
+            {% endif %}
+            <div>
+              <h5>{{ post.user.username }}</h5>
+              <p class="post-date">{{ post.created_datetime }}</p>
+            </div>
+          </div>
+
+          {% if post.user == user %}
+            <div class="post-actions">
+              <a href="{% url 'posts:edit' post.id %}" title="Edytuj"><i class="bi bi-pencil-square"></i></a>
+              <a href="{% url 'posts:delete' post.id %}" title="Usuń"><i class="bi bi-x-square"></i></a>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="post-body">
+          <a href="{% url 'posts:detail' post.id %}">
+            <h4>{{ post.title }}</h4>
+            <p>{{ post.contents|safe }}</p>
+          </a>
+        </div>
+
+        <div class="post-footer">
+          <form action="{% url 'posts:like' post.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm {% if user in post.likes.all %}btn-secondary{% else %}btn-outline-primary{% endif %}">
+              <i class="bi bi-hand-thumbs-up"></i> Like
+            </button>
+            <span class="likes-count">({{ post.number_of_likes }})</span>
+          </form>
+          <a class="btn btn-sm btn-outline-info" href="{% url 'posts:add_comment' post.id %}">
+            <i class="bi bi-chat-left-text"></i> Comment
+          </a>
+        </div>
+      </div>
+    {% empty %}
+      <p>No posts in this category.</p>
+    {% endfor %}
+  </div>
+
+  <aside class="sidebar">
+    <h3>Category</h3>
+    <p>{{ category.name }}</p>
+  </aside>
+</div>
+{% endblock %}

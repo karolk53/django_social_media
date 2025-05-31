@@ -1,0 +1,59 @@
+/* Categories list styling */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2f4f4f;
+}
+
+.btn-outline-primary {
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.text-muted {
+  font-style: italic;
+}
+
+/* Category posts list enhancements */
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.posts-list {
+  flex: 3;
+}
+
+.sidebar {
+  flex: 1;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.sidebar h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.sidebar p {
+  color: #555;
+}

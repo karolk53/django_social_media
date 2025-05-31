@@ -102,3 +102,7 @@ border: none;
 .pagination .page-link {
 color: #007bff;
 }
+
+.delete-post:hover{
+    color: red;
+}

@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block title %}Registration{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'register/css/register.css' %}">
+{% endblock %}
+
 {% block content %}
+<div class="register-container">
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -11,16 +17,15 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <div class="container" style="width: 60%;">
-        <form method="post">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Create yout account here!</legend>
-                {{ form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <input type="submit" class="btn btn-success" value="Register" style="margin: 8px 0;">
-            </div>
-        </form>
-    </div>
+
+    <form method="post" class="register-form">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Create your account here!</legend>
+            {{ form|crispy }}
+        </fieldset>
+
+        <button type="submit" class="btn-submit">Register</button>
+    </form>
+</div>
 {% endblock %}
